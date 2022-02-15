@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Collections;
 using System.Collections.Generic;
 
 class Instance
@@ -51,10 +53,10 @@ class Instance
 
 		foreach (string Punc in Punctuation)
 		{
-			NewWords = NewWords.Replace(Punc, "");
+			NewWords = NewWords.Replace(Punc, " ");
 		}
 
-		string[] Values = this.Words.ToLower().Split();
+		string[] Values = NewWords.Split();
 		foreach (string Value in Values)
 		{
 			if (Count.ContainsKey(Value))
@@ -70,7 +72,6 @@ class Instance
 			}
 		}
 	}
-
 	public void Print()
 	{
 		var List = this.Count.ToList();
@@ -79,6 +80,12 @@ class Instance
 		{
 			Console.WriteLine("{0},{1}", Pair.Key, Pair.Value);
 		}
+	}
+
+	public void Json()
+	{
+		var Result = JsonSerializer.Serialize(this.Count, new JsonSerializerOptions{WriteIndented = true});
+		Console.WriteLine(Result);
 	}
 
 	public void Remove(string Term)

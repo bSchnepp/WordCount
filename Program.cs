@@ -3,11 +3,8 @@ using System.Text;
 
 class Program
 {
-	static void RunInstance(string Words, ulong TrimCount)
+	static void CleanInstance(Instance Inst)
 	{
-		Instance Inst = new Instance(Words);
-		Inst.Parse();
-
 		/* Remove articles */
 		Inst.Remove("the");
 		Inst.Remove("a");
@@ -26,11 +23,15 @@ class Program
 		Inst.Remove("on");
 		Inst.Remove("by");
 		Inst.Remove("at");
+		Inst.Remove("if");
+		Inst.Remove("then");
 
 		/* Also some annoying verbs */
 		Inst.Remove("as");
 		Inst.Remove("are");
 		Inst.Remove("is");
+		Inst.Remove("have");
+		Inst.Remove("be");
 
 		/* Get rid of pronouns while we're at it. */
 		Inst.Remove("we");
@@ -56,16 +57,43 @@ class Program
 		Inst.Remove("each");
 		Inst.Remove("some");
 		Inst.Remove("none");
+		Inst.Remove("can");
+
+		/* Get rid of some negation words too... */
+		Inst.Remove("not");
+		Inst.Remove("without");
+	}
+
+	static void RunCleanInstance(string Words, ulong TrimCount)
+	{
+		Instance Inst = new Instance(Words);
+		Inst.Parse();
+
+		CleanInstance(Inst);
 
 		/* Anything TrimCount and lower we don't care about. */
 		Inst.Remove(TrimCount);
 		Inst.Print();
 	}
 
+	static void RunJsonInstance(string Words, ulong TrimCount)
+	{
+		Instance Inst = new Instance(Words);
+		Inst.Parse();
+
+		CleanInstance(Inst);
+
+		/* Anything TrimCount and lower we don't care about. */
+		Inst.Remove(TrimCount);
+		Inst.Json();
+	}	
+
 	public static void Main(string[] argv)
 	{
 		string Location = "q";
 		ulong TrimCount = 1;
+		bool Json = false;
+		
 		if (argv.Length >= 1)
 		{
 			Location = argv[0];
@@ -79,7 +107,10 @@ class Program
 			}
 		}
 
-		Console.WriteLine("Reading location: {0}, trim results below {1}", Location, TrimCount);
+		if (argv.Length >= 3)
+		{
+			Json = (argv[2] == "-j");
+		}
 
 		StringBuilder Builder = new StringBuilder();
 
@@ -102,6 +133,14 @@ class Program
 		{
 			Console.WriteLine(e.Message);
 		}
-		RunInstance(Builder.ToString(), TrimCount);
+
+		if (Json)
+		{
+			RunJsonInstance(Builder.ToString(), TrimCount);
+		}
+		else
+		{
+			RunCleanInstance(Builder.ToString(), TrimCount);
+		}
 	}	
 }
