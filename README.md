@@ -1,5 +1,5 @@
 # WordCount
-Quickly count occurences of non-trivial in a file
+Quickly count occurences of non-trivial words in a file
 
 ## Usage
 The program takes in two arguments: a file to look through, and a floor on number of occurences.
