@@ -14,37 +14,45 @@ class Instance
 		string NewWords = this.Words.ToLower();
 
 		/* Remove punctuation */
-		NewWords.Replace(".", "");
-		NewWords.Replace("!", "");
-		NewWords.Replace("?", "");
-		NewWords.Replace("\'", "");
-		NewWords.Replace("\"", "");
-		NewWords.Replace(";", "");
-		NewWords.Replace(":", "");
-		NewWords.Replace(")", "");
-		NewWords.Replace("(", "");
-		NewWords.Replace("[", "");
-		NewWords.Replace("]", "");
-		NewWords.Replace("{", "");
-		NewWords.Replace("}", "");
-		NewWords.Replace("@", "");
-		NewWords.Replace("#", "");
-		NewWords.Replace("$", "");
-		NewWords.Replace("%%", "");
-		NewWords.Replace("^", "");
-		NewWords.Replace("&", "");
-		NewWords.Replace("*", "");
-		NewWords.Replace("-", "");
-		NewWords.Replace("+", "");
-		NewWords.Replace("=", "");
-		NewWords.Replace("`", "");
-		NewWords.Replace("~", "");
-		NewWords.Replace("/", "");
-		NewWords.Replace("\\", "");
-		NewWords.Replace("<", "");
-		NewWords.Replace(">", "");
-		NewWords.Replace(",", "");
-		NewWords.Replace("·", "");	/* What is this??? */
+		string[] Punctuation = 
+		{
+			".",
+			"!",
+			"?",
+			"\'",
+			"\"",
+			";",
+			":",
+			")",
+			"(",
+			"[",
+			"]",
+			"{",
+			"}",
+			"@",
+			"#",
+			"$",
+			"%",
+			"^",
+			"&",
+			"*",
+			"-",
+			"+",
+			"=",
+			"`",
+			"~",
+			"/",
+			"\\",
+			"<",
+			">",
+			",",
+			"·",
+		};
+
+		foreach (string Punc in Punctuation)
+		{
+			NewWords = NewWords.Replace(Punc, "");
+		}
 
 		string[] Values = this.Words.ToLower().Split();
 		foreach (string Value in Values)
